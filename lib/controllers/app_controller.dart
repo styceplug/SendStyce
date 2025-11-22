@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+
+import 'package:get/get.dart';
+import 'package:send_styce/screens/home/pages/activities_page.dart';
+import 'package:send_styce/screens/home/pages/home_page.dart';
+import 'package:send_styce/screens/home/pages/market_page.dart';
+import 'package:send_styce/screens/home/pages/profile_page.dart';
+
+
+import '../data/repo/app_repo.dart';
+import '../routes/routes.dart';
+
+class AppController extends GetxController {
+  final AppRepo appRepo;
+
+  AppController({required this.appRepo});
+
+  Rx<ThemeMode> themeMode = Rx<ThemeMode>(ThemeMode.system);
+
+  var currentAppPage = 0.obs;
+  var isFirstTime = false.obs;
+  PageController pageController = PageController();
+
+
+  final List<Widget> pages = [
+    HomePage(),
+    MarketPage(),
+    ActivitiesPage(),
+    ProfilePage(),
+  ];
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  Future<void> initializeApp() async {
+    await checkFirstTimeUse();
+
+    // await checkLoginAndNavigate();
+
+    // await userController.getUserProfile();
+  }
+
+/*
+  Future<void> checkLoginAndNavigate() async {
+    final loggedIn = authController.userLoggedIn();
+
+    if (isFirstTime.value) {
+      Get.offAllNamed(AppRoutes.onboardingScreen);
+    } else if (loggedIn) {
+      Get.offAllNamed(AppRoutes.homeScreen);
+    } else {
+      Get.offAllNamed(AppRoutes.splashScreen);
+    }
+  }*/
+
+  Future<void> checkFirstTimeUse() async {
+    final prefs = appRepo.sharedPreferences;
+    final seen = prefs.getBool('hasSeenOnboarding') ?? false;
+
+    if (!seen) {
+      isFirstTime.value = true;
+      await prefs.setBool('hasSeenOnboarding', true);
+    } else {
+      isFirstTime.value = false;
+    }
+  }
+
+  void changeCurrentAppPage(int page, {bool movePage = true}) {
+    currentAppPage.value = page;
+
+    if (movePage) {
+      if (pageController.hasClients) {
+        pageController.animateToPage(
+          page,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+        );
+      } else {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (pageController.hasClients) {
+            pageController.animateToPage(
+              page,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+      }
+    }
+
+    update();
+  }
+}

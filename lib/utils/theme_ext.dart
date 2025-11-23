@@ -11,7 +11,7 @@ extension AppThemeColors on BuildContext {
 
   // Background
   Color get background =>
-      isDark ? AppColors.bgDark : AppColors.bgLight;
+      isDark ? AppColors.charcoal : AppColors.bgLight;
 
   Color get card =>
       isDark ? AppColors.cardDark : AppColors.cardLight;

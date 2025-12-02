@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:send_styce/routes/routes.dart';
 import 'package:send_styce/utils/colors.dart';
 import 'package:send_styce/utils/dimensions.dart';
 import 'package:send_styce/utils/theme_ext.dart';
@@ -20,7 +22,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(
-        title: 'Set your location',
+        title: 'Pre-saved Locations',
       ),
       body: Container(
         padding: EdgeInsets.symmetric(
@@ -30,7 +32,7 @@ class _LocationScreenState extends State<LocationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomTextField(hintText: 'Enter your location'),
+            /*CustomTextField(hintText: 'Enter your location'),
             SizedBox(height: Dimensions.height20),
             CustomButton(
               text: 'Use Current Location',
@@ -39,23 +41,16 @@ class _LocationScreenState extends State<LocationScreen> {
               textStyle: TextStyle(fontSize: Dimensions.font15,fontWeight: FontWeight.w500,color: AppColors.white),
               icon: Icon(CupertinoIcons.location,size: Dimensions.iconSize20,color: AppColors.white,),
             ),
-            SizedBox(height: Dimensions.height20),
-            Text(
-              'Pre-saved Locations',
-              style: TextStyle(
-                fontSize: Dimensions.font15,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            SizedBox(height: Dimensions.height20),
+            SizedBox(height: Dimensions.height20),*/
+         
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                locationCard(Iconsax.home,"Home"),
+                locationCard(Iconsax.home,"Home",(){}),
                 SizedBox(width: Dimensions.width10),
-                locationCard(Iconsax.building,"Work"),
+                locationCard(Iconsax.building,"Work",(){}),
                 SizedBox(width: Dimensions.width10),
-                locationCard(Iconsax.location_add,"Add New"),
+                locationCard(Iconsax.location_add,"Add New",(){Get.toNamed(AppRoutes.newLocationScreen);}),
               ],
             )
           ],
@@ -67,24 +62,27 @@ class _LocationScreenState extends State<LocationScreen> {
 
 
   }
-  Widget locationCard(IconData icon,String title){
-    return Container(
-      height: Dimensions.height100*0.8,
-      width: Dimensions.width100*0.8,
-      decoration: BoxDecoration(
-          color: context.card,
-          border: Border.all(color: context.goldSoft),
-          borderRadius: BorderRadius.circular(Dimensions.radius10)
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Spacer(),
-          Icon(icon),
-          SizedBox(height: Dimensions.height10),
-          Text(title),
-          Spacer(),
-        ],
+  Widget locationCard(IconData icon,String title, VoidCallback onTap){
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: Dimensions.height100*0.8,
+        width: Dimensions.width100*0.8,
+        decoration: BoxDecoration(
+            color: context.card,
+            border: Border.all(color: context.goldSoft),
+            borderRadius: BorderRadius.circular(Dimensions.radius10)
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Spacer(),
+            Icon(icon),
+            SizedBox(height: Dimensions.height10),
+            Text(title),
+            Spacer(),
+          ],
+        ),
       ),
     );
   }

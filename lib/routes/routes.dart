@@ -4,6 +4,7 @@ import 'package:send_styce/screens/auth/forgot_password.dart';
 import 'package:send_styce/screens/auth/verify_profile.dart';
 import 'package:send_styce/screens/home/home_screen.dart';
 import 'package:send_styce/screens/in_app/location_screen.dart';
+import 'package:send_styce/screens/in_app/new_location.dart';
 
 import '../screens/auth/login_screen.dart';
 import '../screens/splash/no_internet_screen.dart';
@@ -32,6 +33,7 @@ class AppRoutes {
   //inapp
   static const String homeScreen = '/home-screen';
   static const String locationScreen = '/location-screen';
+  static const String newLocationScreen = '/new-location-screen';
 
 
 
@@ -110,6 +112,13 @@ class AppRoutes {
       name: locationScreen,
       page: () {
         return const LocationScreen();
+      },
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: newLocationScreen,
+      page: () {
+        return const NewLocation();
       },
       transition: Transition.fadeIn,
     ),
